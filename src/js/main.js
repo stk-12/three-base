@@ -27,8 +27,17 @@ function init(){
   scene = new THREE.Scene();
 
   //カメラ
-  camera = new THREE.PerspectiveCamera(45, size.width / size.height, 1, 100);
-  camera.position.set(0, 0, 5);
+  // camera = new THREE.PerspectiveCamera(45, size.width / size.height, 1, 100);
+  // camera.position.set(0, 0, 5);
+  // scene.add(camera);
+
+  //ウインドウとWebGL座標を一致させる
+  const fov = 45;
+  const fovRadian = (fov / 2) * (Math.PI / 180); //視野角をラジアンに変換
+  const distance = (size.height / 2) / Math.tan(fovRadian); //ウインドウぴったりのカメラ距離
+  camera = new THREE.PerspectiveCamera(fov, size.width / size.height, 1, distance * 2);
+  camera.position.z = distance;
+  camera.lookAt(new THREE.Vector3(0, 0, 0));
   scene.add(camera);
 
   //コントローラー
@@ -41,7 +50,7 @@ function init(){
   scene.add(light);
 
   //メッシュ
-  const geometry = new THREE.BoxGeometry(1, 1, 1);
+  const geometry = new THREE.BoxGeometry(50, 50, 50);
   const material = new THREE.MeshStandardMaterial({color: 0x444444});
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
