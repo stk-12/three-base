@@ -1,5 +1,6 @@
 import '../css/style.css'
 import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
 
 
 let renderer, scene, camera;
@@ -30,6 +31,10 @@ function init(){
   camera.position.set(0, 0, 5);
   scene.add(camera);
 
+  //コントローラー
+  const controls = new OrbitControls(camera, canvas);
+  controls.enableDamping = true;
+
   //ライト
   const light = new THREE.DirectionalLight(0xffffff, 1.5);
   light.position.set(1, 1, 1);
@@ -43,14 +48,14 @@ function init(){
 
 
   function animate(){
-      //アニメーション処理
-      mesh.rotation.y += 0.01;
-      mesh.rotation.x += 0.01;
-     
-      //レンダリング
-      renderer.render(scene, camera);
-     
-      requestAnimationFrame(animate);
+    //アニメーション処理
+    mesh.rotation.y += 0.01;
+    mesh.rotation.x += 0.01;
+    
+    //レンダリング
+    renderer.render(scene, camera);
+    controls.update();
+    requestAnimationFrame(animate);
   }
   animate();
   
