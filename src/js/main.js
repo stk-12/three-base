@@ -5,30 +5,29 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
 
 class Main {
   constructor() {
-    this.canvas = document.querySelector("#canvas");
-    this.renderer = null;
-    this.scene = new THREE.Scene();
-    this.camera = null;
-    this.controls = null;
-    this.mesh = null;
-
     this.size = {
       width: window.innerWidth,
       height: window.innerHeight
     };
 
-    this._init();
-    this._update();
-    this._addEvent();
-  }
+    this.canvas = document.querySelector("#canvas");
 
-  _setRenderer() {
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas,
       alpha: true
     });
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(this.size.width, this.size.height);
+
+    this.scene = new THREE.Scene();
+    this.camera = null;
+    this.mesh = null;
+
+    this.controls = null;
+
+    this._init();
+    this._update();
+    this._addEvent();
   }
 
   _setCamera() {
@@ -65,7 +64,6 @@ class Main {
   }
 
   _init() {
-    this._setRenderer();
     this._setCamera();
     this._setControlls();
     this._setLight();
