@@ -1,11 +1,12 @@
-import '../css/style.scss'
+import '../css/style.scss';
+// import { radian, random } from './utils';
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
 
 
 class Main {
   constructor() {
-    this.size = {
+    this.viewport = {
       width: window.innerWidth,
       height: window.innerHeight
     };
@@ -17,7 +18,7 @@ class Main {
       alpha: true
     });
     this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.setSize(this.size.width, this.size.height);
+    this.renderer.setSize(this.viewport.width, this.viewport.height);
 
     this.scene = new THREE.Scene();
     this.camera = null;
@@ -31,15 +32,15 @@ class Main {
   }
 
   _setCamera() {
-    // this.camera = new THREE.PerspectiveCamera(45, this.size.width / this.size.height, 1, 100);
+    // this.camera = new THREE.PerspectiveCamera(45, this.viewport.width / this.viewport.height, 1, 100);
     // this.camera.position.set(0, 0, 5);
     // this.scene.add(this.camera);
 
     //ウインドウとWebGL座標を一致させる
     const fov = 45;
     const fovRadian = (fov / 2) * (Math.PI / 180); //視野角をラジアンに変換
-    const distance = (this.size.height / 2) / Math.tan(fovRadian); //ウインドウぴったりのカメラ距離
-    this.camera = new THREE.PerspectiveCamera(fov, this.size.width / this.size.height, 1, distance * 2);
+    const distance = (this.viewport.height / 2) / Math.tan(fovRadian); //ウインドウぴったりのカメラ距離
+    this.camera = new THREE.PerspectiveCamera(fov, this.viewport.width / this.viewport.height, 1, distance * 2);
     this.camera.position.z = distance;
     this.camera.lookAt(new THREE.Vector3(0, 0, 0));
     this.scene.add(this.camera);
@@ -81,14 +82,14 @@ class Main {
   }
 
   _onResize() {
-    this.size = {
+    this.viewport = {
       width: window.innerWidth,
       height: window.innerHeight
     }
     // レンダラーのサイズを修正
-    this.renderer.setSize(this.size.width, this.size.height);
+    this.renderer.setSize(this.viewport.width, this.viewport.height);
     // カメラのアスペクト比を修正
-    this.camera.aspect = this.size.width / this.size.height;
+    this.camera.aspect = this.viewport.width / this.viewport.height;
     this.camera.updateProjectionMatrix();
   }
 
@@ -100,14 +101,4 @@ class Main {
 new Main();
 
 
-
-// ラジアンに変換
-// function radian(val) {
-//   return (val * Math.PI) / 180;
-// }
-
-// ランダムな数
-// function random(min, max) {
-//   return Math.random() * (max - min) + min;
-// }
 
