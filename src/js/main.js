@@ -1,7 +1,7 @@
 // import '../css/style.scss';
 // import { radian, random } from './utils';
+import { Controls } from './controls';
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
 
 
 class Main {
@@ -24,7 +24,7 @@ class Main {
     this.camera = null;
     this.mesh = null;
 
-    this.controls = null;
+    this.isEnableControls = false;
 
     this._init();
     this._update();
@@ -47,8 +47,9 @@ class Main {
   }
 
   _setControlls() {
-    this.controls = new OrbitControls(this.camera, this.canvas);
-    this.controls.enableDamping = true;
+    if(this.isEnableControls) {
+      this.controls = new Controls(this.camera, this.canvas);
+    }
   }
 
   _setLight() {
@@ -77,7 +78,11 @@ class Main {
 
     //レンダリング
     this.renderer.render(this.scene, this.camera);
-    this.controls.update();
+
+    if(this.isEnableControls) {
+      this.controls.update();
+    }
+
     requestAnimationFrame(this._update.bind(this));
   }
 
